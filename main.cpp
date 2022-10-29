@@ -1,114 +1,157 @@
+
 #include <iostream>
+#include <string>
+#include <vector>
 
 using namespace std;
-void swap_elem(void * lha, void * rha, size_t size_elem)
+struct Point //класс точки из задания лабораторной
 {
-    void * tmp = malloc(size_elem);
-    memcpy(tmp, lha, size_elem);
-    memcpy(lha, rha, size_elem );
-    memcpy(rha, tmp, size_elem);
-    free(tmp);
+    unsigned long long const x, y;
+    Point(unsigned long long x, unsigned long long y): x(x), y(y) {}
+
+    Point minx(Point const & rha) const
+    {
+        return Point(rha.x < x ? rha.x : x, y);
+    }
+
+    Point miny(Point const & rha) const
+    {
+        return Point(x, rha.y < y ? rha.y : y);
+    }
+
+    Point maxx(Point const & rha) const
+    {
+        return Point(rha.x > x ? rha.x : x, y);
+    }
+
+    Point maxy(Point const & rha) const
+    {
+        return Point(x, rha.y > y ? rha.y : y);
+    }
+
+    void print () const
+    {
+        cout << '(' << x << ',' << y << ')';
+    }
+};
+struct Rectangle //класс прямоугольник
+{
+    Point RUpoint; //вершина правого верхнего угла
+    Rectangle(): RUpoint(Point(0, 0)) {} //конструктор без параметров для создания прямоугольника с правым верхним углом в начале координат
+    Rectangle(Point const & RUpoint): RUpoint(RUpoint) {} //конструктор с одним параметром для создания прямоугольника с правым верхним углом в заданной точке
+    Rectangle operator + (Rectangle const &rha) const // оператор построения прямоугольника с минимальными координатами, содержащего оба прямоугольника
+    {
+        return Rectangle(RUpoint.maxx(rha.RUpoint).maxy(rha.RUpoint));
+    }
+    Rectangle operator*(Rectangle const &rha) const // оператор построения прямоугольника, являющегося пересечением двух прямоугольников
+    {
+        return Rectangle(RUpoint.minx(rha.RUpoint).miny(rha.RUpoint));
+    }
+    Rectangle operator=(Rectangle const &rha) const // оператор присваивания
+    {
+        return rha;
+
+    }
+
+    void print () const //печать на экране координаты правого верхнего угла прямоугольника
+    {
+        RUpoint.print();
+    }
+};
+
+Point parse_point(string s) //преобразует строку вида (x, y) в Point(x, y)
+{
+    string curr_s = s;
+    while (curr_s.find(' ') != string::npos) //чистка пробелов
+    {
+        curr_s.erase(curr_s.find(' '), 1);
+    }
+    unsigned long long x,y;
+    int z_pos = curr_s.find(',');
+    x = stoi(curr_s.substr(1, z_pos - 1));
+    y = stoi(curr_s.substr(z_pos + 1, curr_s.length() - z_pos - 2));
+    return Point(x, y);
 }
 
-void qs(void *first, size_t number, size_t size_elem, int ( * comparator )(const void *, const void *))
-{
-    if (number <= 0)
-        return;
-    auto x =  (number - 1) / 2;
-    auto i = first;
-    auto j = ( char *) first + size_elem * (number - 1);
-    auto curr = (char *) first + size_elem * x;
 
-
-     do
-        {
-            while (comparator(i, curr) < 0)
-                i = (char *)i + size_elem;
-            while (comparator(j, curr) > 0)
-                j = (char *)j - size_elem;
-
-            if(i <= j)
-            {
-                if (comparator(i, j) > 0)
-                    swap_elem(i, j, size_elem);
-                i = (char *)i + size_elem;
-                j = (char *)j - size_elem;
-            }
-        }
-    while (comparator(i, j) <= 0);
-
-    if (i < (char *) first + (number - 1)* size_elem )
-        {
-            size_t num =((char *) first +  size_elem * (number - 1) - (char *) i) / size_elem + 1;
-            qs(i, num, size_elem, comparator);
-        }
-    if (first < j)
-        {
-            size_t num =((char *) j - (char * ) first) / size_elem + 1;
-            qs(first, num, size_elem, comparator);
-        }
-}
-int compare(const void *x1, const void *x2)
-{
-    return (*(int*)x1 - *(int*)x2);
-}
-
-int compare_double(const void * x1, const void * x2) //функция сравнения двух чисел double
-{
-    if (*(double *)x1 > *(double *)x2) return 1;
-    if (*(double *)x1 < *(double *)x2) return -1;
-    if (*(double *)x1 == *(double *)x2) return 0;
-
-}
-
-int compare_char(const void * x1, const void * x2) //функция сравнения двух символов
-{
-    if (*(char *)x1 > *(char *)x2) return 1;
-    if (*(char *)x1 < *(char *)x2) return -1;
-    if (*(char *)x1 == *(char *)x2) return 0;
-
-}
 int main()
 {
-    int vector[] = {-14, 10, -111, 19, 28, 250};
-    cout << "int array:" << endl << "Default:" << endl;
-    for ( int i = 0; i < 6; i++)
-        cout << vector[i] << " ";
+    string expression;
+    getline(cin, expression);
+    vector <Rectangle> Rect; //массив прямоугольников
+    vector <int> oper; //массив операций
+    size_t pos1 = 0;
+    size_t pos2 = 0;
+    while (pos1 < expression.length()) // разбиение выражения на прямоугольники и операции
+    {
+        while (expression[pos2] != '+' && expression[pos2] != '*' && pos2 <= expression.length()) //поиск правой границы прямоугольника в выражении (операция или конец выражения)
+            pos2++;
+        if (pos2 < expression.length())
+        {
+            if (expression[pos2] == '*')
+                oper.push_back(0);
+            else
+                oper.push_back(1);
+        }
+        Rect.push_back(Rectangle(parse_point(expression.substr(pos1, pos2 - pos1))));
+        pos2++;
+        pos1 = pos2;
+    }
 
-    qs(vector, 6, sizeof(int), compare);
-    cout << endl << "Sorted:" << endl;
-    for ( int i = 0; i < 6; i++)
-        cout << vector[i] << " ";
+    pos1 = 0;while (pos1 < oper.size()) //выполнение всех операций * (высокий приоритет)
+    {
+        if (oper[pos1] == 0)
+        {
+            vector<Rectangle> Rect1;
+            for (int i = 0; i < pos1; i++)
+                Rect1.push_back(Rect[i]);
+            Rect1.push_back(Rect[pos1] * Rect[pos1 + 1]);
+            for(int i = pos1 + 2; i < Rect.size(); i++)
+                Rect1.push_back(Rect[i]);
+            Rect.erase(Rect.begin(), Rect.end());
+            Rect = Rect1;
+            oper.erase(oper.begin() + pos1);
+            for(int i = 0;  i< oper.size(); i++ )
+            {
+                Rect[i].print();
+                if (oper[i] == 0)
+                    cout << "*";
+                else
+                    cout << "+";
+            }
+            Rect[Rect.size() - 1]. print();
+            cout << endl;
+        }
 
-    double vector2[] = {1.4, 1.0, -1.1, -1.9, 0.2, 2.5};
-    cout << endl << endl << "double array:" << endl << "Default:" << endl;
-    for ( int i = 0; i < 6; i++)
-        cout << vector2[i] << " ";
+        else pos1++;
 
-    qs(vector2, 6, sizeof(double), compare_double);
-    cout << endl << "Sorted:" << endl;
-    for ( int i = 0; i < 6; i++)
-        cout << vector2[i] << " ";
+    }
+    pos1 = 0;
+    while (pos1 < oper.size())
+    {
+        vector<Rectangle> Rect1;
+        for (int i = 0; i < pos1; i++)
+            Rect1.push_back(Rect[i]);
+        Rect1.push_back(Rect[pos1] + Rect[pos1 + 1]);
+        for(int i = pos1 + 2; i < Rect.size(); i++)
+            Rect1.push_back(Rect[i]);
+        Rect.erase(Rect.begin(), Rect.end());
+        Rect = Rect1;
+        oper.erase(oper.begin() + pos1);
+        for(int i = 0;  i< oper.size(); i++ )
+            {
+                Rect[i].print();
+                if (oper[i] == 0)
+                    cout << " * ";
+                else
+                    cout << " + ";
+            }
+            Rect[Rect.size() - 1]. print();
+            cout << endl;
 
-    char vector3[] = {'a', 'B', '4', 'c', 'Y', '!'};
-    cout << endl << endl << "char array:" << endl << "Default:" << endl;
-    for ( int i = 0; i < 6; i++)
-        cout << vector3[i] << " ";
+    }
 
-    qs(vector3, 6, sizeof(char), compare_char);
-    cout << endl << "Sorted:" << endl;
-    for ( int i = 0; i < 6; i++)
-        cout << vector3[i] << " ";
-
-    int vector4[] = {-14, 10, -111, 19, 28, 250};
-    cout << endl << endl << "int array (sort by first of pair):" << endl << "Default:" << endl;
-    for ( int i = 0; i < 6; i++)
-        cout << vector4[i] << " ";
-
-    qs(vector4, 6/2, 2 * sizeof(int), compare);
-    cout << endl << "Sorted:" << endl;
-    for ( int i = 0; i < 6; i += 2)
-        cout << "(" << vector4[i] << ";" << vector4[i + 1] << ") ";
-
+    cout << " = ";
+    Rect[0].print(); //вывод результата
     return 0;
 }
