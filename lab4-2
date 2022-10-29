@@ -24,30 +24,30 @@ struct CharComparator final : Comparator<char> {
 };
 
 template <typename T>
-class PriorityQueue //элемент очереди
+class PriorityQueue //ГЅГ«ГҐГ¬ГҐГ­ГІ Г®Г·ГҐГ°ГҐГ¤ГЁ
 {
 private:
-    size_t HeapSize;//размер кучи
-    T * First; //указатель на вершину кучи
-    Comparator <T> & comparator; //компаратор
-    T * parent(T * x) //возвращает указатель на предка элемента x
+    size_t HeapSize;//Г°Г Г§Г¬ГҐГ° ГЄГіГ·ГЁ
+    T * First; //ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  ГўГҐГ°ГёГЁГ­Гі ГЄГіГ·ГЁ
+    Comparator <T> & comparator; //ГЄГ®Г¬ГЇГ Г°Г ГІГ®Г°
+    T * parent(T * x) //ГўГ®Г§ГўГ°Г Г№Г ГҐГІ ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  ГЇГ°ГҐГ¤ГЄГ  ГЅГ«ГҐГ¬ГҐГ­ГІГ  x
     {
         return First + (x - First - 1) / 2;
     }
-    T * left(T * x) //возвращает указатель на левого потомка элемента x
+    T * left(T * x) //ГўГ®Г§ГўГ°Г Г№Г ГҐГІ ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  Г«ГҐГўГ®ГЈГ® ГЇГ®ГІГ®Г¬ГЄГ  ГЅГ«ГҐГ¬ГҐГ­ГІГ  x
     {
         return First + (x - First) * 2 + 1;
     }
-    T * right(T * x) //возвращает указатель на правого потомка элемента x
+    T * right(T * x) //ГўГ®Г§ГўГ°Г Г№Г ГҐГІ ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  ГЇГ°Г ГўГ®ГЈГ® ГЇГ®ГІГ®Г¬ГЄГ  ГЅГ«ГҐГ¬ГҐГ­ГІГ  x
     {
         return First + (x - First) * 2 + 2;
     }
 
-    void heapify(T * x) // перестройка кучи при удалении элемента
+    void heapify(T * x) // ГЇГҐГ°ГҐГ±ГІГ°Г®Г©ГЄГ  ГЄГіГ·ГЁ ГЇГ°ГЁ ГіГ¤Г Г«ГҐГ­ГЁГЁ ГЅГ«ГҐГ¬ГҐГ­ГІГ 
     {
         if (!is_empty())
         {
-            auto curr = x;//текущий узел
+            auto curr = x;//ГІГҐГЄГіГ№ГЁГ© ГіГ§ГҐГ«
             auto l = left(x);
             auto r = right(x);
             if (l - First < HeapSize - 1 && comparator(*l, *curr))
@@ -64,8 +64,8 @@ private:
         }
     }
 public:
-        PriorityQueue(Comparator <T> & comparator): First(nullptr), HeapSize(0), comparator(comparator) {}//конструктор
-        void push(T x) //добавление элемента
+        PriorityQueue(Comparator <T> & comparator): First(nullptr), HeapSize(0), comparator(comparator) {}//ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°
+        void push(T x) //Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ ГЅГ«ГҐГ¬ГҐГ­ГІГ 
         {
             if (is_empty())
             {
@@ -88,11 +88,11 @@ public:
                 }
             }
         }
-        bool is_empty() //пуста ли очередь
+        bool is_empty() //ГЇГіГ±ГІГ  Г«ГЁ Г®Г·ГҐГ°ГҐГ¤Гј
         {
             return HeapSize==0;
         }
-        T peek() //чтение верхнего элемента
+        T peek() //Г·ГІГҐГ­ГЁГҐ ГўГҐГ°ГµГ­ГҐГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ 
         {
             if (is_empty())
             {
@@ -100,11 +100,11 @@ public:
             }
             return *First;
         }
-        void poll() // удаление верхнего элемента
+        void poll() // ГіГ¤Г Г«ГҐГ­ГЁГҐ ГўГҐГ°ГµГ­ГҐГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ 
         {
             if (!is_empty())
             {
-                *First = *(First + HeapSize - 1); //Присвоение верхнему элементу очереди значения последнего
+                *First = *(First + HeapSize - 1); //ГЏГ°ГЁГ±ГўГ®ГҐГ­ГЁГҐ ГўГҐГ°ГµГ­ГҐГ¬Гі ГЅГ«ГҐГ¬ГҐГ­ГІГі Г®Г·ГҐГ°ГҐГ¤ГЁ Г§Г­Г Г·ГҐГ­ГЁГї ГЇГ®Г±Г«ГҐГ¤Г­ГҐГЈГ®
                 HeapSize--;
                 First = (T *)realloc(First, HeapSize * sizeof(T));
                 heapify(First);
