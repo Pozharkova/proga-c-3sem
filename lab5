@@ -2,31 +2,31 @@
 #include<cassert>
 
 template <typename T, std :: size_t N>
-class Sizes final { //класс с размерностями сетки
+class Sizes final { //ГЄГ«Г Г±Г± Г± Г°Г Г§Г¬ГҐГ°Г­Г®Г±ГІГїГ¬ГЁ Г±ГҐГІГЄГЁ
 public:
-    using size_type = unsigned; //тип размерностей
-    size_type gsize; //размер по оси N
-    Sizes <T, N - 1> subsize; //класс меньшей размерности (вложенный класс)
-    Sizes() : gsize(1), subsize(Sizes<T, N - 1>()) {} //пустой конструктор создает класс с размерностями 1х1х1...
+    using size_type = unsigned; //ГІГЁГЇ Г°Г Г§Г¬ГҐГ°Г­Г®Г±ГІГҐГ©
+    size_type gsize; //Г°Г Г§Г¬ГҐГ° ГЇГ® Г®Г±ГЁ N
+    Sizes <T, N - 1> subsize; //ГЄГ«Г Г±Г± Г¬ГҐГ­ГјГёГҐГ© Г°Г Г§Г¬ГҐГ°Г­Г®Г±ГІГЁ (ГўГ«Г®Г¦ГҐГ­Г­Г»Г© ГЄГ«Г Г±Г±)
+    Sizes() : gsize(1), subsize(Sizes<T, N - 1>()) {} //ГЇГіГ±ГІГ®Г© ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г±Г®Г§Г¤Г ГҐГІ ГЄГ«Г Г±Г± Г± Г°Г Г§Г¬ГҐГ°Г­Г®Г±ГІГїГ¬ГЁ 1Гµ1Гµ1...
     template <typename... Args>
-    Sizes(size_type gsize, Args... subsize): gsize(gsize), subsize(subsize...) {} //конструктор
-    size_type full_size(){//полный размер сетки, вычисляется рекурсивно
+    Sizes(size_type gsize, Args... subsize): gsize(gsize), subsize(subsize...) {} //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°
+    size_type full_size(){//ГЇГ®Г«Г­Г»Г© Г°Г Г§Г¬ГҐГ° Г±ГҐГІГЄГЁ, ГўГ»Г·ГЁГ±Г«ГїГҐГІГ±Гї Г°ГҐГЄГіГ°Г±ГЁГўГ­Г®
         return gsize * subsize.full_size();
     }
     template <typename... Args>
-    size_type get_idx(unsigned idx, Args... subidx){//вычисление индекса точки сетки в одномерном массиве Т - рекурсивно
+    size_type get_idx(unsigned idx, Args... subidx){//ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ ГЁГ­Г¤ГҐГЄГ±Г  ГІГ®Г·ГЄГЁ Г±ГҐГІГЄГЁ Гў Г®Г¤Г­Г®Г¬ГҐГ°Г­Г®Г¬ Г¬Г Г±Г±ГЁГўГҐ Г’ - Г°ГҐГЄГіГ°Г±ГЁГўГ­Г®
         return idx + gsize * subsize.get_idx(subidx...);
     }
 
-    T get_t() {return subsize.get_t();} //значение аргумента t - последний элемент аргументов конструктора сетки вида Grid <тип, 3> (2, 3, 4, t);
+    T get_t() {return subsize.get_t();} //Г§Г­Г Г·ГҐГ­ГЁГҐ Г Г°ГЈГіГ¬ГҐГ­ГІГ  t - ГЇГ®Г±Г«ГҐГ¤Г­ГЁГ© ГЅГ«ГҐГ¬ГҐГ­ГІ Г Г°ГЈГіГ¬ГҐГ­ГІГ®Гў ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г  Г±ГҐГІГЄГЁ ГўГЁГ¤Г  Grid <ГІГЁГЇ, 3> (2, 3, 4, t);
 
-    size_type get_size(std :: size_t n){ //размер по n-й оси
+    size_type get_size(std :: size_t n){ //Г°Г Г§Г¬ГҐГ° ГЇГ® n-Г© Г®Г±ГЁ
         auto csize = gsize;
         for (auto i = n; i > 0; i--)
             csize = subsize.get_size(n - 1);
         return csize;
     }
-    Sizes(Sizes const &src) = default;//конструкторы и пр.
+    Sizes(Sizes const &src) = default;//ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г» ГЁ ГЇГ°.
     Sizes& operator = (Sizes const &src) = default;
     Sizes(Sizes &&) = default;
     Sizes& operator = (Sizes &&) = default;
@@ -34,7 +34,7 @@ public:
 };
 
 
-template <typename T> //уточнение класса при N=1 - конец рекурсии
+template <typename T> //ГіГІГ®Г·Г­ГҐГ­ГЁГҐ ГЄГ«Г Г±Г±Г  ГЇГ°ГЁ N=1 - ГЄГ®Г­ГҐГ¶ Г°ГҐГЄГіГ°Г±ГЁГЁ
 class Sizes <T, 1> final {
 public:
     using size_type = unsigned;
@@ -42,8 +42,8 @@ public:
     T t;
     Sizes() : gsize(1), t(1) {}
     template <typename... Args>
-    Sizes(size_type gsize, T t): gsize(gsize), t(t) {} //конструктор с параметром t
-    Sizes(size_type gsize): gsize(gsize), t(0) {} //конструктор без параметра t
+    Sizes(size_type gsize, T t): gsize(gsize), t(t) {} //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г± ГЇГ Г°Г Г¬ГҐГІГ°Г®Г¬ t
+    Sizes(size_type gsize): gsize(gsize), t(0) {} //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° ГЎГҐГ§ ГЇГ Г°Г Г¬ГҐГІГ°Г  t
     size_type full_size(){
         return gsize;
     }
@@ -65,28 +65,28 @@ public:
     using size_type = unsigned;
     Sizes <T, N> sizes;
     T * const data;
-    Grid(T * data, Sizes <T, N> sizes): data(data), sizes(sizes) {} //исходный конструктор с передачей размеров в виде объекта
-    Grid(T const &t) : Grid(new T[1], Sizes <T, N> ()) {*data = t;} //конструктор с параметром t
-    Grid(Sizes <T, N> sizes) : Grid(new T[sizes.full_size()], sizes) {} //исходный конструктор без data - для конструкторов копирования
+    Grid(T * data, Sizes <T, N> sizes): data(data), sizes(sizes) {} //ГЁГ±ГµГ®Г¤Г­Г»Г© ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г± ГЇГҐГ°ГҐГ¤Г Г·ГҐГ© Г°Г Г§Г¬ГҐГ°Г®Гў Гў ГўГЁГ¤ГҐ Г®ГЎГєГҐГЄГІГ 
+    Grid(T const &t) : Grid(new T[1], Sizes <T, N> ()) {*data = t;} //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г± ГЇГ Г°Г Г¬ГҐГІГ°Г®Г¬ t
+    Grid(Sizes <T, N> sizes) : Grid(new T[sizes.full_size()], sizes) {} //ГЁГ±ГµГ®Г¤Г­Г»Г© ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° ГЎГҐГ§ data - Г¤Г«Гї ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г®Гў ГЄГ®ГЇГЁГ°Г®ГўГ Г­ГЁГї
     template <typename... Args>
-    Grid(T * data, Args... args): data(data), sizes(Sizes <T, N> (args...)) {} //исходный конструктор с передачей размеров в виде аргументов
+    Grid(T * data, Args... args): data(data), sizes(Sizes <T, N> (args...)) {} //ГЁГ±ГµГ®Г¤Г­Г»Г© ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г± ГЇГҐГ°ГҐГ¤Г Г·ГҐГ© Г°Г Г§Г¬ГҐГ°Г®Гў Гў ГўГЁГ¤ГҐ Г Г°ГЈГіГ¬ГҐГ­ГІГ®Гў
     template <typename... Args>
-    Grid(Args... args) : Grid(new T[Sizes <T, N> (args...).full_size()], Sizes <T, N> (args...)) { //конструктор с рамерностями в виде параметров
-        T t = sizes.get_t();//считывание t из набора параметров
+    Grid(Args... args) : Grid(new T[Sizes <T, N> (args...).full_size()], Sizes <T, N> (args...)) { //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г± Г°Г Г¬ГҐГ°Г­Г®Г±ГІГїГ¬ГЁ Гў ГўГЁГ¤ГҐ ГЇГ Г°Г Г¬ГҐГІГ°Г®Гў
+        T t = sizes.get_t();//Г±Г·ГЁГІГ»ГўГ Г­ГЁГҐ t ГЁГ§ Г­Г ГЎГ®Г°Г  ГЇГ Г°Г Г¬ГҐГІГ°Г®Гў
         for (size_type i = 0; i < sizes.full_size(); i++)
             *(data + i) = t;
     }
-    ~Grid() {if (data) delete [] data;} //деструктор
+    ~Grid() {if (data) delete [] data;} //Г¤ГҐГ±ГІГ°ГіГЄГІГ®Г°
 
-    Grid (Grid <T, N> const &src) : Grid(src.sizes) { //конструктор копирования
+    Grid (Grid <T, N> const &src) : Grid(src.sizes) { //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° ГЄГ®ГЇГЁГ°Г®ГўГ Г­ГЁГї
         for (size_type i = 0; i < sizes.full_size(); i++)
             *(data + i) = *(src.data + i);
     }
-    Grid (Grid <T, N> &&src) : Grid(src) { //конструктор перемещения
+    Grid (Grid <T, N> &&src) : Grid(src) { //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° ГЇГҐГ°ГҐГ¬ГҐГ№ГҐГ­ГЁГї
         std :: swap(this -> data, src.data);
         src.data = nullptr;
     }
-    Grid <T, N> & operator = (Grid <T, N> &src) {//копирующее присваивание
+    Grid <T, N> & operator = (Grid <T, N> &src) {//ГЄГ®ГЇГЁГ°ГіГѕГ№ГҐГҐ ГЇГ°ГЁГ±ГўГ ГЁГўГ Г­ГЁГҐ
         sizes = src.sizes;
         for (size_type i = 0; i < sizes.full_size(); i++)
         {
@@ -94,7 +94,7 @@ public:
         }
         return * this;
     }
-    Grid <T, N> & operator = (Grid <T, N> &&src) {//перемещающее присваивание
+    Grid <T, N> & operator = (Grid <T, N> &&src) {//ГЇГҐГ°ГҐГ¬ГҐГ№Г ГѕГ№ГҐГҐ ГЇГ°ГЁГ±ГўГ ГЁГўГ Г­ГЁГҐ
         Grid <T, N> tmp(std :: move(src));
         std :: swap(this -> sizes, src.sizes);
         std :: swap(this -> data, src.data);
@@ -139,7 +139,7 @@ public:
 
 
 int main() {
-    //тестовый код из задания
+    //ГІГҐГ±ГІГ®ГўГ»Г© ГЄГ®Г¤ ГЁГ§ Г§Г Г¤Г Г­ГЁГї
     Grid <float, 3> g3(2, 3, 4, 1.0f);
     assert (1.0f == g3(1, 1, 1));
     Grid <float, 2> g2(2, 5, 2.0f);
@@ -147,17 +147,17 @@ int main() {
     g2 = g3[1];
     assert(1.0f == g2(1, 1));
 
-    //тестовый код для демонстрации
+    //ГІГҐГ±ГІГ®ГўГ»Г© ГЄГ®Г¤ Г¤Г«Гї Г¤ГҐГ¬Г®Г­Г±ГІГ°Г Г¶ГЁГЁ
     using gsize_t = Grid <int, 2> :: size_type;
     std :: cout << "Grid <int, 2> test_grid(5, 10, 2);" << std :: endl;
-    Grid <int, 2> test_grid(5, 10, 2); //конструктор с 3 параметрами
+    Grid <int, 2> test_grid(5, 10, 2); //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г± 3 ГЇГ Г°Г Г¬ГҐГІГ°Г Г¬ГЁ
     for (gsize_t y_idx = 0; y_idx != test_grid.sizes.get_size(0); ++y_idx)
     {
         for (gsize_t x_idx = 0; x_idx != test_grid.sizes.get_size(1); ++x_idx)
             std :: cout << test_grid[y_idx][x_idx] << " ";
         std :: cout << std :: endl;
     }
-    Grid <int, 2> copy_grid(test_grid); //конструктор копирования
+    Grid <int, 2> copy_grid(test_grid); //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° ГЄГ®ГЇГЁГ°Г®ГўГ Г­ГЁГї
     std :: cout << "Grid <int, 2> copy_grid(test_grid);" << std :: endl;
     for (gsize_t y_idx = 0; y_idx != copy_grid.sizes.get_size(0); ++y_idx)
     {
@@ -165,7 +165,7 @@ int main() {
             std :: cout << copy_grid[y_idx][x_idx] << " ";
         std :: cout << std :: endl;
     }
-    std :: cout << "test_grid[i][j] = (i + 1) * (j + 1);" << std :: endl;//поэлементное присваивание с [][]
+    std :: cout << "test_grid[i][j] = (i + 1) * (j + 1);" << std :: endl;//ГЇГ®ГЅГ«ГҐГ¬ГҐГ­ГІГ­Г®ГҐ ГЇГ°ГЁГ±ГўГ ГЁГўГ Г­ГЁГҐ Г± [][]
     for (gsize_t y_idx = 0; y_idx != test_grid.sizes.get_size(0); ++y_idx)
         for (gsize_t x_idx = 0; x_idx != test_grid.sizes.get_size(1); ++x_idx)
             test_grid[y_idx][x_idx] = (y_idx + 1) * (x_idx + 1);
@@ -177,7 +177,7 @@ int main() {
         std :: cout << std :: endl;
     }
 
-    std :: cout << "copy_grid = test_grid;" << std :: endl;//оператор копирования
+    std :: cout << "copy_grid = test_grid;" << std :: endl;//Г®ГЇГҐГ°Г ГІГ®Г° ГЄГ®ГЇГЁГ°Г®ГўГ Г­ГЁГї
     copy_grid = test_grid;
     for (gsize_t y_idx = 0; y_idx != copy_grid.sizes.get_size(0); ++y_idx)
     {
