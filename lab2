@@ -4,7 +4,7 @@
 #include <vector>
 
 using namespace std;
-struct Point //класс точки из задания лабораторной
+struct Point //ГЄГ«Г Г±Г± ГІГ®Г·ГЄГЁ ГЁГ§ Г§Г Г¤Г Г­ГЁГї Г«Г ГЎГ®Г°Г ГІГ®Г°Г­Г®Г©
 {
     unsigned long long const x, y;
     Point(unsigned long long x, unsigned long long y): x(x), y(y) {}
@@ -34,35 +34,35 @@ struct Point //класс точки из задания лабораторной
         cout << '(' << x << ',' << y << ')';
     }
 };
-struct Rectangle //класс прямоугольник
+struct Rectangle //ГЄГ«Г Г±Г± ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄ
 {
-    Point RUpoint; //вершина правого верхнего угла
-    Rectangle(): RUpoint(Point(0, 0)) {} //конструктор без параметров для создания прямоугольника с правым верхним углом в начале координат
-    Rectangle(Point const & RUpoint): RUpoint(RUpoint) {} //конструктор с одним параметром для создания прямоугольника с правым верхним углом в заданной точке
-    Rectangle operator + (Rectangle const &rha) const // оператор построения прямоугольника с минимальными координатами, содержащего оба прямоугольника
+    Point RUpoint; //ГўГҐГ°ГёГЁГ­Г  ГЇГ°Г ГўГ®ГЈГ® ГўГҐГ°ГµГ­ГҐГЈГ® ГіГЈГ«Г 
+    Rectangle(): RUpoint(Point(0, 0)) {} //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° ГЎГҐГ§ ГЇГ Г°Г Г¬ГҐГІГ°Г®Гў Г¤Г«Гї Г±Г®Г§Г¤Г Г­ГЁГї ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ  Г± ГЇГ°Г ГўГ»Г¬ ГўГҐГ°ГµГ­ГЁГ¬ ГіГЈГ«Г®Г¬ Гў Г­Г Г·Г Г«ГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІ
+    Rectangle(Point const & RUpoint): RUpoint(RUpoint) {} //ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г° Г± Г®Г¤Г­ГЁГ¬ ГЇГ Г°Г Г¬ГҐГІГ°Г®Г¬ Г¤Г«Гї Г±Г®Г§Г¤Г Г­ГЁГї ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ  Г± ГЇГ°Г ГўГ»Г¬ ГўГҐГ°ГµГ­ГЁГ¬ ГіГЈГ«Г®Г¬ Гў Г§Г Г¤Г Г­Г­Г®Г© ГІГ®Г·ГЄГҐ
+    Rectangle operator + (Rectangle const &rha) const // Г®ГЇГҐГ°Г ГІГ®Г° ГЇГ®Г±ГІГ°Г®ГҐГ­ГЁГї ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ  Г± Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г»Г¬ГЁ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ Г¬ГЁ, Г±Г®Г¤ГҐГ°Г¦Г Г№ГҐГЈГ® Г®ГЎГ  ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ 
     {
         return Rectangle(RUpoint.maxx(rha.RUpoint).maxy(rha.RUpoint));
     }
-    Rectangle operator*(Rectangle const &rha) const // оператор построения прямоугольника, являющегося пересечением двух прямоугольников
+    Rectangle operator*(Rectangle const &rha) const // Г®ГЇГҐГ°Г ГІГ®Г° ГЇГ®Г±ГІГ°Г®ГҐГ­ГЁГї ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ , ГїГўГ«ГїГѕГ№ГҐГЈГ®Г±Гї ГЇГҐГ°ГҐГ±ГҐГ·ГҐГ­ГЁГҐГ¬ Г¤ГўГіГµ ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ®Гў
     {
         return Rectangle(RUpoint.minx(rha.RUpoint).miny(rha.RUpoint));
     }
-    Rectangle operator=(Rectangle const &rha) const // оператор присваивания
+    Rectangle operator=(Rectangle const &rha) const // Г®ГЇГҐГ°Г ГІГ®Г° ГЇГ°ГЁГ±ГўГ ГЁГўГ Г­ГЁГї
     {
         return rha;
 
     }
 
-    void print () const //печать на экране координаты правого верхнего угла прямоугольника
+    void print () const //ГЇГҐГ·Г ГІГј Г­Г  ГЅГЄГ°Г Г­ГҐ ГЄГ®Г®Г°Г¤ГЁГ­Г ГІГ» ГЇГ°Г ГўГ®ГЈГ® ГўГҐГ°ГµГ­ГҐГЈГ® ГіГЈГ«Г  ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ 
     {
         RUpoint.print();
     }
 };
 
-Point parse_point(string s) //преобразует строку вида (x, y) в Point(x, y)
+Point parse_point(string s) //ГЇГ°ГҐГ®ГЎГ°Г Г§ГіГҐГІ Г±ГІГ°Г®ГЄГі ГўГЁГ¤Г  (x, y) Гў Point(x, y)
 {
     string curr_s = s;
-    while (curr_s.find(' ') != string::npos) //чистка пробелов
+    while (curr_s.find(' ') != string::npos) //Г·ГЁГ±ГІГЄГ  ГЇГ°Г®ГЎГҐГ«Г®Гў
     {
         curr_s.erase(curr_s.find(' '), 1);
     }
@@ -78,13 +78,13 @@ int main()
 {
     string expression;
     getline(cin, expression);
-    vector <Rectangle> Rect; //массив прямоугольников
-    vector <int> oper; //массив операций
+    vector <Rectangle> Rect; //Г¬Г Г±Г±ГЁГў ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ®Гў
+    vector <int> oper; //Г¬Г Г±Г±ГЁГў Г®ГЇГҐГ°Г Г¶ГЁГ©
     size_t pos1 = 0;
     size_t pos2 = 0;
-    while (pos1 < expression.length()) // разбиение выражения на прямоугольники и операции
+    while (pos1 < expression.length()) // Г°Г Г§ГЎГЁГҐГ­ГЁГҐ ГўГ»Г°Г Г¦ГҐГ­ГЁГї Г­Г  ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГЁ ГЁ Г®ГЇГҐГ°Г Г¶ГЁГЁ
     {
-        while (expression[pos2] != '+' && expression[pos2] != '*' && pos2 <= expression.length()) //поиск правой границы прямоугольника в выражении (операция или конец выражения)
+        while (expression[pos2] != '+' && expression[pos2] != '*' && pos2 <= expression.length()) //ГЇГ®ГЁГ±ГЄ ГЇГ°Г ГўГ®Г© ГЈГ°Г Г­ГЁГ¶Г» ГЇГ°ГїГ¬Г®ГіГЈГ®Г«ГјГ­ГЁГЄГ  Гў ГўГ»Г°Г Г¦ГҐГ­ГЁГЁ (Г®ГЇГҐГ°Г Г¶ГЁГї ГЁГ«ГЁ ГЄГ®Г­ГҐГ¶ ГўГ»Г°Г Г¦ГҐГ­ГЁГї)
             pos2++;
         if (pos2 < expression.length())
         {
@@ -98,7 +98,7 @@ int main()
         pos1 = pos2;
     }
 
-    pos1 = 0;while (pos1 < oper.size()) //выполнение всех операций * (высокий приоритет)
+    pos1 = 0;while (pos1 < oper.size()) //ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГҐ ГўГ±ГҐГµ Г®ГЇГҐГ°Г Г¶ГЁГ© * (ГўГ»Г±Г®ГЄГЁГ© ГЇГ°ГЁГ®Г°ГЁГІГҐГІ)
     {
         if (oper[pos1] == 0)
         {
@@ -152,6 +152,6 @@ int main()
     }
 
     cout << " = ";
-    Rect[0].print(); //вывод результата
+    Rect[0].print(); //ГўГ»ГўГ®Г¤ Г°ГҐГ§ГіГ«ГјГІГ ГІГ 
     return 0;
 }
