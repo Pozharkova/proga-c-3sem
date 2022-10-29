@@ -53,7 +53,7 @@ int compare(const void *x1, const void *x2)
     return (*(int*)x1 - *(int*)x2);
 }
 
-int compare_double(const void * x1, const void * x2) //ôóíêöèÿ ñğàâíåíèÿ äâóõ ÷èñåë double
+int compare_double(const void * x1, const void * x2) //Ã´Ã³Ã­ÃªÃ¶Ã¨Ã¿ Ã±Ã°Ã Ã¢Ã­Ã¥Ã­Ã¨Ã¿ Ã¤Ã¢Ã³Ãµ Ã·Ã¨Ã±Ã¥Ã« double
 {
     if (*(double *)x1 > *(double *)x2) return 1;
     if (*(double *)x1 < *(double *)x2) return -1;
@@ -61,7 +61,7 @@ int compare_double(const void * x1, const void * x2) //ôóíêöèÿ ñğàâíåíèÿ äâóõ ÷è
 
 }
 
-int compare_char(const void * x1, const void * x2) //ôóíêöèÿ ñğàâíåíèÿ äâóõ ñèìâîëîâ
+int compare_char(const void * x1, const void * x2) //Ã´Ã³Ã­ÃªÃ¶Ã¨Ã¿ Ã±Ã°Ã Ã¢Ã­Ã¥Ã­Ã¨Ã¿ Ã¤Ã¢Ã³Ãµ Ã±Ã¨Ã¬Ã¢Ã®Ã«Ã®Ã¢
 {
     if (*(char *)x1 > *(char *)x2) return 1;
     if (*(char *)x1 < *(char *)x2) return -1;
